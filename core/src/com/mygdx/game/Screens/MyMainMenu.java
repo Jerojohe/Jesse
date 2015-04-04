@@ -3,6 +3,9 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +23,9 @@ public class MyMainMenu implements Screen{
     private SpriteBatch batch;
     private Skin skin;
     private Stage stage;
+    private OrthographicCamera camera;
+    private Texture texture;
+    private Sprite sprite;
 
     public MyMainMenu(Jesse game){
         this.game = game;
@@ -27,41 +33,7 @@ public class MyMainMenu implements Screen{
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("android/assets/uiskin.json"));
-        stage = new Stage();
-
-        final TextButton playButton = new TextButton("Play", skin, "default");
-        final TextButton optionsButton = new TextButton("Options", skin, "default");
-
-        playButton.setWidth(Gdx.graphics.getWidth()/3);
-        playButton.setHeight(Gdx.graphics.getHeight()/20);
-        playButton.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - 10f);
-
-
-        optionsButton.setWidth(Gdx.graphics.getWidth()/3);
-        optionsButton.setHeight(Gdx.graphics.getHeight()/20);
-        optionsButton.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 - playButton.getAlign()- 50f);
-
-
-        playButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                game.setScreen(game.playScreen);
-            }
-        });
-
-        optionsButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                game.setScreen(game.optionsScreen);
-            }
-        });
-
-        stage.addActor(playButton);
-        stage.addActor(optionsButton);
-
-        Gdx.input.setInputProcessor(stage);
+        camera = new OrthographicCamera(1920,1080);
     }
 
     @Override
@@ -69,9 +41,6 @@ public class MyMainMenu implements Screen{
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        stage.draw();
-        batch.end();
     }
 
     @Override
